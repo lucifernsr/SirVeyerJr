@@ -1,0 +1,2 @@
+# fencing
+Often in real estate, surveyors are brought in to establish the exact size of properties and compare them against the deed to a property. This can then be used to determine where to set fences so that the fences sit on the boundaries between properties. For this assignment you will create an app to assist in surveying a property. Your app will allow someone to walk along the boundaries of a property or area and then display to them the perimeter and area of that property as well as given them an estimate of how much fencing would be required to border the area.
