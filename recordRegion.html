@@ -23,7 +23,8 @@
             </div>
           </header>
           <main class="mdl-layout__content">
-              <!--   Main page content here:   -->  
+              <!--   Main page content here:   --> 
+              <div id="map" height="400px" width="100"></div>
 
           </main>    
           <div id="toast" class="mdl-js-snackbar mdl-snackbar">
@@ -36,5 +37,8 @@
         <script defer src="https://code.getmdl.io/1.2.1/material.min.js"></script>
         <script src="js/shared.js"></script>
         <script src="js/recordRegionPage.js"></script>
+        <script async defer
+  src="https://maps.googleapis.com/maps/api/js?v=3&key=AIzaSyART7HqXuP4pN41JtxhyFMbXYtA84-2e7M&libraries=geometry&callback=initMap">
+    </script>
     </body>
 </html>
