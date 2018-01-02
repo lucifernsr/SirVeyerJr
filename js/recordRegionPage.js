@@ -4,7 +4,7 @@
 function initMap() {        
     // Initialise map, centred on Melbourne, Australia.        
     map = new google.maps.Map(document.getElementById('map'), {
-        center: {lat: -37.8200855, lng: 144.9608045},
+        center: {lat: 6.9064, lng: 79.9046},
         zoom: 17        
     });      
 }
