@@ -2,19 +2,15 @@ html, body {
     height: 100%; 
     margin: 0; 
     padding: 0;
-    color: #9e9e9e;
-    background-color: #424242;
 }
 
 #map {
     width: 100%;
-    
     /* view height, minus header bar height and room for buttons */
-    height: calc(100vh - 177px);
-    
+    height: calc(100vh - 156px);
 }
 
 #footerElements {
-    margin:auto;
+    margin:0 auto;
     display:block;
 }
