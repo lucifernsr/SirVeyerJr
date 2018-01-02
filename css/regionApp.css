@@ -7,7 +7,7 @@ html, body {
 #map {
     width: 100%;
     /* view height, minus header bar height and room for buttons */
-    height: calc(100vh - 156px);
+    height: calc(100vh - 174px);
 }
 
 #footerElements {
