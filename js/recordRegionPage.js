@@ -13,7 +13,7 @@ function initMap() {
     infoWindow = new google.maps.InfoWindow;
     // Try HTML5 geolocation.
     if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(function(position) {
+        navigator.geolocation.watchPosition(function(position) {
             var pos = {
                 lat: position.coords.latitude,
                 lng: position.coords.longitude
