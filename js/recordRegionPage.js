@@ -22,9 +22,15 @@ function initMap() {
             infoWindow.setContent('Current Location.');
             infoWindow.open(map);
             map.setCenter(pos);
-        }, function() {
+        }, 
+                                            function() {
+            
             handleLocationError(true, infoWindow, map.getCenter());
-        });
+        
+        },
+                                           {enableHighAccuracy: true, 
+                                            maximumAge        : 30000, 
+                                            timeout           : 1000});
     } else {
         // Browser doesn't support Geolocation
         handleLocationError(false, infoWindow, map.getCenter()); 
