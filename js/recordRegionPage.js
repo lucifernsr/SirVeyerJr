@@ -29,8 +29,8 @@ function initMap() {
         
         },
                                            {enableHighAccuracy: true, 
-                                            maximumAge        : 4000, 
-                                            timeout           : 8000});
+                                            maximumAge        : 8000, 
+                                            timeout           : Infinity});
     } else {
         // Browser doesn't support Geolocation
         handleLocationError(false, infoWindow, map.getCenter()); 
