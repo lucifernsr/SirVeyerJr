@@ -29,7 +29,7 @@ function initMap() {
         
         },
                                            {enableHighAccuracy: true, 
-                                            maximumAge        : 30000, 
+                                            maximumAge        : 4000, 
                                             timeout           : 8000});
     } else {
         // Browser doesn't support Geolocation
@@ -38,9 +38,15 @@ function initMap() {
 }
       
 function handleLocationError(browserHasGeolocation, infoWindow, pos) {
-    infoWindow.setPosition(pos);
+    /** infoWindow.setPosition(pos);
     infoWindow.setContent(browserHasGeolocation ? 
                           'Error: The Geolocation service failed.' :
                             'Error: Your browser doesn\'t support geolocation.');
-    infoWindow.open(map);
+    infoWindow.open(map); **/
+    if (browserHasGeolocation) {
+        displayMessage("Please Allow The Location Services", 4000);
+    }
+    else {
+        displayMessage("Your browser doesn't support geolocation.", 4000);
+    }
 }
