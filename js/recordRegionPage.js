@@ -19,7 +19,6 @@ function initMap() {
             size: new google.maps.Size(37, 48),
             scaledSize: new google.maps.Size(37, 48) 
         },
-        animation: google.maps.Animation.DROP,
         optimized: false,
         map: map      
     });
@@ -31,6 +30,7 @@ function initMap() {
             };
             
             marker.setPosition(pos);
+            marker.setAnimation(google.maps.Animation.DROP);
             map.setCenter(pos);
         }, 
                                             function() {
