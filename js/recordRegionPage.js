@@ -19,6 +19,7 @@ function initMap() {
             size: new google.maps.Size(37, 48),
             scaledSize: new google.maps.Size(37, 48) 
         },
+        animation: null,
         optimized: false,
         map: map      
     });
