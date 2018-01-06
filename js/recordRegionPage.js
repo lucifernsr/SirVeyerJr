@@ -44,7 +44,7 @@ function initMap() {
         navigator.geolocation.watchPosition(function(position) {
             // Location inaccuracy.
             if (position.coords.accuracy < 10) {
-                displayMessage(`Location Accuracy: ${position.coords.accuracy}m`)
+                displayMessage(`Location Accuracy: ${position.coords.accuracy}m`, 1000)
             }
             
             var pos = makeLatLngObj(position);
@@ -71,7 +71,7 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
         displayMessage("Please Allow The Location Services", 4000);
     }
     else {
-        displayMessage("Your browser doesn't support geolocation.", 4000);
+        displayMessage("Your browser doesn't support geolocation.", 1000);
     }
 }
 
@@ -91,7 +91,24 @@ function addCorner() {
 
 // Delete corner function.
 function deleteCorner() {
-    console.log("Delete Corner");
+    if (confirm('Are you sure you want to remove the last corner added?')) {
+        regionInstance.deleteLastCorner();
+        displayMessage("Corner Deleted.", 1000);
+        regionPolygon.setMap(null);
+        regionPolygon.setOptions({paths: regionInstance.getCornerLocations()});
+        regionPolygon.setMap(map);
+    }
+}
+
+// Reset the complete region.
+function resetRegion() {
+    if (confirm('Are you sure you want to reset the region?')) {
+        regionInstance.deleteAllCorners();
+        displayMessage("Region Cleared.", 1000);
+        regionPolygon.setMap(null);
+        regionPolygon.setOptions({paths: regionInstance.getCornerLocations()});
+        regionPolygon.setMap(map);
+    }
 }
 
 // Save region function.
