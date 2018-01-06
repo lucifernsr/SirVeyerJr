@@ -12,7 +12,7 @@
         <link rel="apple-touch-icon-precomposed" href="images/icon.png" />
     </head>
     
-    <body>
+    <body onload="createRegion()">
         <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
             <header class="mdl-layout__header">
                 <button onclick="location.href = 'index.html';" class="mdl-layout-icon mdl-button mdl-js-button mdl-button--icon">
@@ -28,19 +28,19 @@
             </main>
             <div id="buttonFloat3">
                 <!-- Colored FAB button with ripple -->
-                <button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored mdl-shadow--16dp">
-                    <i class="material-icons">add_location</i>
+                <button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored mdl-shadow--16dp" onclick="addCorner()">
+                    <i class="material-icons" >add_location</i>
                 </button>
             </div>
             <div id="buttonFloat2">
                 <!-- Colored FAB button with ripple -->
-                <button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored mdl-shadow--16dp">
+                <button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored mdl-shadow--16dp" onclick="deleteCorner()">
                     <i class="material-icons">delete_sweep</i>
                 </button>
             </div>
             <div id="buttonFloat1">
                 <!-- Colored FAB button with ripple -->
-                <button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored mdl-shadow--16dp">
+                <button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored mdl-shadow--16dp" onclick="saveRegion()">
                     <i class="material-icons">save</i>
                 </button>
             </div>
