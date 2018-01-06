@@ -12,22 +12,24 @@ function initMap() {
     
     infoWindow = new google.maps.InfoWindow;
     // Try HTML5 geolocation.
+    var marker = new google.maps.Marker({
+        position: null,
+        icon: {        
+            url: 'images/currentLocation.png',
+            size: new google.maps.Size(37, 48),
+            scaledSize: new google.maps.Size(37, 48) 
+        },
+        optimized: false,
+        map: map      
+    });
     if (navigator.geolocation) {
         navigator.geolocation.watchPosition(function(position) {
             var pos = {
                 lat: position.coords.latitude,
                 lng: position.coords.longitude
             };
-            var marker = new google.maps.Marker({
-                position: pos,
-                icon: {
-                    url: 'images/currentLocation.png',
-                    size: new google.maps.Size(37, 48),
-                    scaledSize: new google.maps.Size(37, 48)
-                },
-                optimized: false,
-                map: map
-          });
+            
+            marker.setPosition(pos);
             map.setCenter(pos);
         }, 
                                             function() {
