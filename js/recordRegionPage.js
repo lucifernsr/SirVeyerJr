@@ -1,5 +1,5 @@
 // Code for the Record Region page.
-var map, infoWindow, regionInstance, currentPos, regionPolygon;
+var map, infoWindow, regionInstance, locationInaccuracy, currentPos, regionPolygon;
 
 function makeLatLngObj(position) {
     return pos = {   
@@ -44,7 +44,8 @@ function initMap() {
         navigator.geolocation.watchPosition(function(position) {
             // Location inaccuracy.
             if (position.coords.accuracy < 10) {
-                displayMessage(`Location Accuracy: ${position.coords.accuracy}m`, 1000)
+                locationInaccuracy = true;
+                displayMessage(`Location Accuracy: ${position.coords.accuracy}m`, 1000);
             }
             
             var pos = makeLatLngObj(position);
@@ -82,33 +83,49 @@ function createRegion() {
 
 // Add corner function.
 function addCorner() {
-    regionInstance.addCornerLocation(currentPos);
-    displayMessage("Corner Added.", 1000);
-    regionPolygon.setMap(null);
-    regionPolygon.setOptions({paths: regionInstance.getCornerLocations()});
-    regionPolygon.setMap(map);
+    if (locationInaccuracy !== true) {
+        regionInstance.addCornerLocation(currentPos);
+        displayMessage("Corner Added.", 1000);
+        regionPolygon.setMap(null);
+        regionPolygon.setOptions({paths: regionInstance.getCornerLocations()});
+        regionPolygon.setMap(map);
+    }
+    else {
+        displayMessage("Corner saving unsuccesful.")
+    }
 }
 
 // Delete corner function.
 function deleteCorner() {
-    if (confirm('Are you sure you want to remove the last corner added?')) {
-        regionInstance.deleteLastCorner();
-        displayMessage("Corner Deleted.", 1000);
-        regionPolygon.setMap(null);
-        regionPolygon.setOptions({paths: regionInstance.getCornerLocations()});
-        regionPolygon.setMap(map);
+    if (regionInstance.getCornerLocations().length > 0) {
+            if (confirm('Are you sure you want to remove the last corner added?')) {
+            regionInstance.deleteLastCorner();
+            displayMessage("Corner Deleted.", 1000);
+            regionPolygon.setMap(null);
+            regionPolygon.setOptions({paths: regionInstance.getCornerLocations()});
+            regionPolygon.setMap(map);
+        }
+    }
+    else {
+        displayMessage("No corners to remove!");
     }
 }
 
 // Reset the complete region.
 function resetRegion() {
-    if (confirm('Are you sure you want to reset the region?')) {
-        regionInstance.deleteAllCorners();
-        displayMessage("Region Cleared.", 1000);
-        regionPolygon.setMap(null);
-        regionPolygon.setOptions({paths: regionInstance.getCornerLocations()});
-        regionPolygon.setMap(map);
+    if (regionInstance.getCornerLocations().length > 0) {    
+        if (confirm('Are you sure you want to reset the region?')) {
+            regionInstance.deleteAllCorners();
+            displayMessage("Region Cleared.", 1000);
+            regionPolygon.setMap(null);
+            regionPolygon.setOptions({paths: regionInstance.getCornerLocations()});
+            regionPolygon.setMap(map);
+        }
     }
+    else {
+        displayMessage("Empty region!");
+    }
+    
 }
 
 // Save region function.
