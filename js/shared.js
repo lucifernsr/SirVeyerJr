@@ -73,4 +73,10 @@ class Region {
         var i = this.cornerLocations.length;
         this.cornerLocations[i] = newLocation;
     }
+    deleteLastCorner() {
+        this.cornerLocations.pop();
+    }
+    deleteAllCorners() {
+        this.cornerLocations = [];
+    }
 }
