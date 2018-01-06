@@ -26,7 +26,7 @@
                 <!--   Main page content here:   -->
                 <div id="map"></div>
             </main>
-            <div id="buttonFloat3">
+            <div id="buttonFloat1">
                 <!-- Colored FAB button with ripple -->
                 <button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored mdl-shadow--16dp" onclick="addCorner()">
                     <i class="material-icons" >add_location</i>
@@ -38,12 +38,19 @@
                     <i class="material-icons">delete_sweep</i>
                 </button>
             </div>
-            <div id="buttonFloat1">
+            <div id="buttonFloat3">
+                <!-- Colored FAB button with ripple -->
+                <button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored mdl-shadow--16dp" onclick="resetRegion()">
+                    <i class="material-icons">delete_forever</i>
+                </button>
+            </div>
+            <div id="buttonFloat4">
                 <!-- Colored FAB button with ripple -->
                 <button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored mdl-shadow--16dp" onclick="saveRegion()">
                     <i class="material-icons">save</i>
                 </button>
             </div>
+            
             <div id="toast" class="mdl-js-snackbar mdl-snackbar">
                 <div class="mdl-snackbar__text"></div>
                 <button class="mdl-snackbar__action" type="button"></button>
