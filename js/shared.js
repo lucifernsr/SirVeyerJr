@@ -1,11 +1,10 @@
 // Shared code needed by the code of all three pages.
 
 // Prefix to use for Local Storage.  You may change this.
-var APP_PREFIX = "monash.eng1003.fencingApp";
+var APP_PREFIX = "teamNameUndefined.sirVeyerJr";
 
 // Array of saved Region objects.
 var savedRegions = [];
-
 
 // This function displays the given message String as a "toast" message at
 // the bottom of the screen.  It will be displayed for 2 second, or if the
@@ -47,3 +46,31 @@ function displayMessage(message, timeout)
     }
 }
 
+// Defining class for a Region instance.
+class Region {
+    // Defining the constructor function for the Region class.
+    constructor() {
+        // Private attributes
+        this.nickname = null;;
+        this.dateAndTime = new Date();
+        this.cornerLocations = [];
+    };
+    
+    // Defining the public methods which can be accessed once an instance is being created from this class.
+    getNickname() {
+        return this.nickname;
+    };
+    getDateAndTime() {
+        return this.dateAndTime;
+    };
+    getCornerLocations() {
+        return this.cornerLocations;
+    };
+    
+    
+    // Defining the public methods which can be used to modify an existing class.
+    addCornerLocation(newLocation) {
+        var i = this.cornerLocations.length;
+        this.cornerLocations[i] = newLocation;
+    }
+}
