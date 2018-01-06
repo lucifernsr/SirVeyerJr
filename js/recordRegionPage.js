@@ -83,7 +83,7 @@ function createRegion() {
 // Add corner function.
 function addCorner() {
     regionInstance.addCornerLocation(currentPos);
-    
+    displayMessage("Corner Added.", 1000);
     regionPolygon.setMap(null);
     regionPolygon.setOptions({paths: regionInstance.getCornerLocations()});
     regionPolygon.setMap(map);
