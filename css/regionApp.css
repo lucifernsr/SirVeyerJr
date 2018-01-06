@@ -6,7 +6,6 @@ html, body {
 
 #map {
     width: 100%;
-    
     /* view height, minus header bar height and room for buttons */
     height: calc(100vh - 56px);
 }
@@ -16,23 +15,30 @@ html, body {
     display:block;
 }
 
-#buttonFloat1 {
+#buttonFloat4 {
     position: absolute;
     left: 12px;
     bottom: 24px;
     z-index: 3;
 }
 
-#buttonFloat2 {
+#buttonFloat3 {
     position: absolute;
     left: 12px;
     bottom: 88px;
     z-index: 3;
 }
 
-#buttonFloat3 {
+#buttonFloat2 {
     position: absolute;
     left: 12px;
     bottom: 152px;
+    z-index: 3;
+}
+
+#buttonFloat1 {
+    position: absolute;
+    left: 12px;
+    bottom: 216px;
     z-index: 3;
 }
