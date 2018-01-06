@@ -18,9 +18,16 @@ function initMap() {
                 lat: position.coords.latitude,
                 lng: position.coords.longitude
             };
-            infoWindow.setPosition(pos);
-            infoWindow.setContent('Current Location.');
-            infoWindow.open(map);
+            var marker = new google.maps.Marker({
+                position: pos,
+                icon: {
+                    url: 'images/currentLocation.png',
+                    size: new google.maps.Size(37, 48),
+                    scaledSize: new google.maps.Size(37, 48)
+                },
+                optimized: false,
+                map: map
+          });
             map.setCenter(pos);
         }, 
                                             function() {
@@ -38,11 +45,6 @@ function initMap() {
 }
       
 function handleLocationError(browserHasGeolocation, infoWindow, pos) {
-    /** infoWindow.setPosition(pos);
-    infoWindow.setContent(browserHasGeolocation ? 
-                          'Error: The Geolocation service failed.' :
-                            'Error: Your browser doesn\'t support geolocation.');
-    infoWindow.open(map); **/
     if (browserHasGeolocation) {
         displayMessage("Please Allow The Location Services", 4000);
     }
