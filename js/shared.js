@@ -3,8 +3,19 @@
 // Prefix to use for Local Storage.  You may change this.
 var APP_PREFIX = "teamNameUndefined.sirVeyerJr";
 
-// Array of saved Region objects.
-var savedRegions = [];
+function checkLocalRegions() {
+    // Array of saved Region objects.
+    if (!localStorage.getItem("localRegions")) {
+        var savedRegions = JSON.stringify([]);
+        localStorage.setItem("localRegions",savedRegions);
+    }
+}
+
+function modifyLocalRegions(newRegionKey) {
+    var myRegions = JSON.parse(localStorage.getItem("localRegions"));
+    myRegions.push(newRegionKey);
+    localStorage.setItem("localRegions", JSON.stringify(myRegions));
+}
 
 // This function displays the given message String as a "toast" message at
 // the bottom of the screen.  It will be displayed for 2 second, or if the
@@ -69,14 +80,20 @@ class Region {
     
     
     // Defining the public methods which can be used to modify an existing class.
+    setNickname(Nickname) {
+        this.nickname = Nickname;
+    };
+    setDateAndTime(DateAndTime) {
+        this.dateAndTime = DateAndTime;
+    };
     addCornerLocation(newLocation) {
         var i = this.cornerLocations.length;
         this.cornerLocations[i] = newLocation;
-    }
+    };
     deleteLastCorner() {
         this.cornerLocations.pop();
-    }
+    };
     deleteAllCorners() {
         this.cornerLocations = [];
-    }
+    };
 }
