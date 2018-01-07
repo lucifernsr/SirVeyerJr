@@ -1,6 +1,12 @@
 // Code for the Record Region page.
 var map, infoWindow, regionInstance, locationInaccuracy, currentPos, regionPolygon;
 
+// Record region page onload function.
+function onloadFunctionRecordRegion() {
+    createRegion();
+    checkLocalRegions();
+}
+
 function makeLatLngObj(position) {
     return pos = {   
         lat: position.coords.latitude,
@@ -130,5 +136,19 @@ function resetRegion() {
 
 // Save region function.
 function saveRegion() {
-    console.log("Save region.");
+    var newRegionIndex = JSON.parse(localStorage.getItem("localRegions")).length;
+    
+    // Updating the Region instance before saving.
+    regionInstance.setDateAndTime(new Date());
+    regionInstance.setNickname(prompt("Set a Nickname for this Region."));
+    
+    // Saving the Region instance in localStorage.
+    var newKey = `${APP_PREFIX}.Region${newRegionIndex}`;
+    var newValue = JSON.stringify(regionInstance);
+    localStorage.setItem(newKey,newValue);
+    modifyLocalRegions(newKey);
+    
+    // Clear the saved region and initialize the Index page.
+    regionInstance = new Region;
+    location.href="index.html"
 }
