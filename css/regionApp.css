@@ -42,3 +42,31 @@ html, body {
     bottom: 216px;
     z-index: 3;
 }
+
+.demo-card-wide.mdl-card {
+    width: 92%;
+    display: block;
+    margin: auto;
+}
+
+.demo-card-wide > .mdl-card__title {
+    color: #fff;
+    height: 100px;
+    background: url('../images/cardImg01.jpg') center / cover;
+}
+
+.demo-card-wide > .mdl-card__menu {
+    color: #fff;
+}
+
+.float-right {
+    float: right
+}
+
+.setCenter {
+    text-align: center;
+}
+
+.logoStyle {
+    width: 92%;
+}

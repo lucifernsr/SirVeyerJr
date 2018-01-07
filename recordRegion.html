@@ -12,54 +12,31 @@
         <link rel="apple-touch-icon-precomposed" href="images/icon.png" />
     </head>
     
-    <body onload="onloadFunctionRecordRegion()">
+    <body>
         <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
-            <header class="mdl-layout__header">
-                <button onclick="location.href = 'index.html';" class="mdl-layout-icon mdl-button mdl-js-button mdl-button--icon">
-                    <i class="material-icons">arrow_back</i>
-                </button>
-                <div class="mdl-layout__header-row">
-                    <span class="mdl-layout-title" id="headerBarTitle">Record Region</span>
-                </div>
-            </header>
-            <main class="mdl-layout__content">
-                <!--   Main page content here:   -->
-                <div id="map"></div>
-            </main>
-            <div id="buttonFloat1">
-                <!-- Colored FAB button with ripple -->
-                <button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored mdl-shadow--16dp" onclick="addCorner()">
-                    <i class="material-icons" >add_location</i>
-                </button>
+          <header class="mdl-layout__header">
+            <button onclick="location.href = 'index.html';" class="mdl-layout-icon mdl-button mdl-js-button mdl-button--icon"> 
+              <i class="material-icons">arrow_back</i>
+            </button>
+            <div class="mdl-layout__header-row">
+              <span class="mdl-layout-title" id="headerBarTitle">View Region</span>
             </div>
-            <div id="buttonFloat2">
-                <!-- Colored FAB button with ripple -->
-                <button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored mdl-shadow--16dp" onclick="deleteCorner()">
-                    <i class="material-icons">delete_sweep</i>
-                </button>
-            </div>
-            <div id="buttonFloat3">
-                <!-- Colored FAB button with ripple -->
-                <button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored mdl-shadow--16dp" onclick="resetRegion()">
-                    <i class="material-icons">delete_forever</i>
-                </button>
-            </div>
-            <div id="buttonFloat4">
-                <!-- Colored FAB button with ripple -->
-                <button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored mdl-shadow--16dp" onclick="saveRegion()">
-                    <i class="material-icons">save</i>
-                </button>
-            </div>
-            
-            <div id="toast" class="mdl-js-snackbar mdl-snackbar">
-                <div class="mdl-snackbar__text"></div>
-                <button class="mdl-snackbar__action" type="button"></button>
-            </div>
+          </header>
+
+          <main class="mdl-layout__content">
+            <!--   Main page content here:   -->  
+                
+          </main>
+          <div id="toast" class="mdl-js-snackbar mdl-snackbar">
+            <div class="mdl-snackbar__text"></div>
+            <button class="mdl-snackbar__action" type="button"></button>
+          </div>
         </div>
+
         <!--   JavaScript files:   -->
         <script defer src="https://code.getmdl.io/1.2.1/material.min.js"></script>
         <script src="js/shared.js"></script>
-        <script src="js/recordRegionPage.js"></script>
+        <script src="js/viewRegionPage.js"></script>
         <script async defer
   src="https://maps.googleapis.com/maps/api/js?v=3&key=AIzaSyART7HqXuP4pN41JtxhyFMbXYtA84-2e7M&libraries=geometry&callback=initMap">
     </script>

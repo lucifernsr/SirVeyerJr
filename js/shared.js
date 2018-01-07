@@ -57,6 +57,23 @@ function displayMessage(message, timeout)
     }
 }
 
+// A function to output the Date and the time as a string.
+function getDateAndTimeString(dateAndTime) {
+    var dateAndTimeString, year, month, date, day, hour, minute, second;
+    var dayRef = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    var monthRef = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    year = dateAndTime.getFullYear();
+    month = dateAndTime.getMonth();
+    date = dateAndTime.getDate();
+    day = dateAndTime.getDay();
+    hour = dateAndTime.getHours();
+    minute = dateAndTime.getMinutes();
+    second = dateAndTime.getSeconds();
+    
+    dateAndTimeString = `${hour}:${minute}:${second} ${dayRef[day]}, ${monthRef[month]} ${date}, ${year}`;
+    return dateAndTimeString;
+}
+
 // Defining class for a Region instance.
 class Region {
     // Defining the constructor function for the Region class.
