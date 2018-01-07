@@ -136,19 +136,24 @@ function resetRegion() {
 
 // Save region function.
 function saveRegion() {
-    var newRegionIndex = JSON.parse(localStorage.getItem("localRegions")).length;
+    if (regionInstance.getCornerLocations().length > 2) {
+        var newRegionIndex = JSON.parse(localStorage.getItem("localRegions")).length;
     
-    // Updating the Region instance before saving.
-    regionInstance.setDateAndTime(new Date());
-    regionInstance.setNickname(prompt("Set a Nickname for this Region."));
+        // Updating the Region instance before saving.
+        regionInstance.setDateAndTime(getDateAndTimeString(new Date()));
+        regionInstance.setNickname(prompt("Set a Nickname for this Region."));
     
-    // Saving the Region instance in localStorage.
-    var newKey = `${APP_PREFIX}.Region${newRegionIndex}`;
-    var newValue = JSON.stringify(regionInstance);
-    localStorage.setItem(newKey,newValue);
-    modifyLocalRegions(newKey);
+        // Saving the Region instance in localStorage.
+        var newKey = `${APP_PREFIX}.Region${newRegionIndex}`;
+        var newValue = JSON.stringify(regionInstance);
+        localStorage.setItem(newKey,newValue);
+        modifyLocalRegions(newKey);
     
-    // Clear the saved region and initialize the Index page.
-    regionInstance = new Region;
-    location.href="index.html"
+        // Clear the saved region and initialize the Index page.
+        regionInstance = new Region;
+        location.href="index.html"
+    }
+    else {
+        displayMessage("There should be more than two corners in a region.");
+    }
 }
