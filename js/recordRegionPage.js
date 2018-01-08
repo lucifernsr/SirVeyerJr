@@ -19,7 +19,7 @@ function initMap() {
     // Initialise map, centred on UCL, Sri Lanka.        
     map = new google.maps.Map(document.getElementById('map'), {
         center: {lat: 6.9064, lng: 79.9046},
-        zoom: 19    
+        zoom: 16    
     });
     
     // Initialise a marker to display the current location.
@@ -83,22 +83,28 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
 }
 
 // A function for create a new Region instance with an each page load.
+
+function recenter() {
+    map.panTo(currentPos);
+}
+
 function createRegion() {
     regionInstance = new Region;
 }
 
 // Add corner function.
 function addCorner() {
-    if (locationInaccuracy !== true) {
+    //if (locationInaccuracy !== true) {
         regionInstance.addCornerLocation(currentPos);
         displayMessage("Corner Added.", 1000);
         regionPolygon.setMap(null);
         regionPolygon.setOptions({paths: regionInstance.getCornerLocations()});
         regionPolygon.setMap(map);
+    /**
     }
-    else {
+    //else {
         displayMessage("Corner saving unsuccesful.")
-    }
+    } **/
 }
 
 // Delete corner function.
