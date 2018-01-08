@@ -10,6 +10,13 @@ html, body {
     height: calc(100vh - 56px);
 }
 
+#buttonFloat5 {
+    position: absolute;
+    right: 4px;
+    bottom: 128px;
+    z-index: 3;
+}
+
 #footerElements {
     margin:0 auto;
     display:block;
