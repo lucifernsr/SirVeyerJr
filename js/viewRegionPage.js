@@ -2,6 +2,7 @@
 var map, infoWindow, locationInaccuracy, currentPos, regionPolygon, center;
 var calculatedData = {area:undefined,
                      perimeter:undefined};
+var newCornerLocations = [];
 
 // The following is sample code to demonstrate navigation.
 // You need not use it for final app.
@@ -53,8 +54,20 @@ function initMap() {
     });
     
     regionPolygon.setMap(map);
-    calculatedData.area = google.maps.geometry.spherical.computeArea({path: regionInstance._cornerLocations});
-    calculatedData.perimeter = google.maps.geometry.spherical.computeLength({path: regionInstance._cornerLocations});
+    calculatedData.area = google.maps.geometry.spherical.computeArea({path: newCornerLocations});
+    calculatedData.perimeter = google.maps.geometry.spherical.computeLength({path: newCornerLocations});
     console.log(calculatedData.area);
     console.log(calculatedData.perimeter);
+    
+    makeLatLngObjectsArray();
+}
+
+function makeLatLngObjectsArray() {
+    var i = 0;
+    var array = regionInstance._cornerLocations;
+    for (var item in array) {
+        newCornerLocations[i] = new google.maps.LatLng(array[item].lat, array[item].lng)
+        i++;
+    }
+    console.log(newCornerLocations);
 }
