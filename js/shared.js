@@ -76,41 +76,42 @@ function getDateAndTimeString(dateAndTime) {
 
 // Defining class for a Region instance.
 class Region {
-    // Defining the constructor function for the Region class.
+    // Defining the constructor variables for the Region class.
     constructor() {
         // Private attributes
-        this.nickname = null;;
-        this.dateAndTime = new Date();
-        this.cornerLocations = [];
-    };
+        this._nickname = null;;
+        this._dateAndTime = new Date();
+        this._cornerLocations = [];
+    }
     
     // Defining the public methods which can be accessed once an instance is being created from this class.
-    getNickname() {
-        return this.nickname;
+    get nickname() {
+        return this._nickname;
     };
-    getDateAndTime() {
-        return this.dateAndTime;
+    get dateAndTime() {
+        return this._dateAndTime;
     };
-    getCornerLocations() {
-        return this.cornerLocations;
+    get cornerLocations() {
+        return this._cornerLocations;
     };
-    
     
     // Defining the public methods which can be used to modify an existing class.
-    setNickname(Nickname) {
-        this.nickname = Nickname;
+    set nickname(Nickname) {
+        this._nickname = Nickname;
     };
-    setDateAndTime(DateAndTime) {
-        this.dateAndTime = DateAndTime;
+    set dateAndTime(DateAndTime) {
+        this._dateAndTime = DateAndTime;
     };
-    addCornerLocation(newLocation) {
-        var i = this.cornerLocations.length;
-        this.cornerLocations[i] = newLocation;
+    set cornerLocation(newLocation) {
+        var i = this._cornerLocations.length;
+        this._cornerLocations[i] = newLocation;
     };
-    deleteLastCorner() {
-        this.cornerLocations.pop();
+    set deleteThisNumOfCorners(numOfCorners) {
+        for (var i = 0; i< numOfCorners ; i++) {
+            this._cornerLocations.pop();
+        }
     };
-    deleteAllCorners() {
-        this.cornerLocations = [];
+    set deleteAllCorners(numOfCorners) {
+        this._cornerLocations = [];
     };
 }

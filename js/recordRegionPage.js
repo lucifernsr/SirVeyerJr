@@ -95,10 +95,10 @@ function createRegion() {
 // Add corner function.
 function addCorner() {
     //if (locationInaccuracy !== true) {
-        regionInstance.addCornerLocation(currentPos);
+        regionInstance.cornerLocation = currentPos;
         displayMessage("Corner Added.", 1000);
         regionPolygon.setMap(null);
-        regionPolygon.setOptions({paths: regionInstance.getCornerLocations()});
+        regionPolygon.setOptions({paths: regionInstance.cornerLocations});
         regionPolygon.setMap(map);
     /**
     }
@@ -109,12 +109,12 @@ function addCorner() {
 
 // Delete corner function.
 function deleteCorner() {
-    if (regionInstance.getCornerLocations().length > 0) {
+    if (regionInstance.cornerLocations.length > 0) {
             if (confirm('Are you sure you want to remove the last corner added?')) {
-            regionInstance.deleteLastCorner();
+            regionInstance.deleteThisNumOfCorners(1);
             displayMessage("Corner Deleted.", 1000);
             regionPolygon.setMap(null);
-            regionPolygon.setOptions({paths: regionInstance.getCornerLocations()});
+            regionPolygon.setOptions({paths: regionInstance.cornerLocations});
             regionPolygon.setMap(map);
         }
     }
@@ -125,12 +125,12 @@ function deleteCorner() {
 
 // Reset the complete region.
 function resetRegion() {
-    if (regionInstance.getCornerLocations().length > 0) {    
+    if (regionInstance.cornerLocations.length > 0) {    
         if (confirm('Are you sure you want to reset the region?')) {
-            regionInstance.deleteAllCorners();
+            regionInstance.deleteAllCorners(1);
             displayMessage("Region Cleared.", 1000);
             regionPolygon.setMap(null);
-            regionPolygon.setOptions({paths: regionInstance.getCornerLocations()});
+            regionPolygon.setOptions({paths: regionInstance.cornerLocations});
             regionPolygon.setMap(map);
         }
     }
@@ -142,18 +142,20 @@ function resetRegion() {
 
 // Save region function.
 function saveRegion() {
-    if (regionInstance.getCornerLocations().length > 2) {
+    if (regionInstance.cornerLocations.length > 2) {
         var newRegionIndex = JSON.parse(localStorage.getItem("localRegions")).length;
     
         // Updating the Region instance before saving.
-        regionInstance.setDateAndTime(getDateAndTimeString(new Date()));
-        regionInstance.setNickname(prompt("Set a Nickname for this Region."));
+        regionInstance.dateAndTime = getDateAndTimeString(new Date());
+        regionInstance.nickname = prompt("Set a Nickname for this Region.");
     
         // Saving the Region instance in localStorage.
         var newKey = `${APP_PREFIX}.Region${newRegionIndex}`;
         var newValue = JSON.stringify(regionInstance);
         localStorage.setItem(newKey,newValue);
         modifyLocalRegions(newKey);
+        
+        console.log(regionInstance);
     
         // Clear the saved region and initialize the Index page.
         regionInstance = new Region;

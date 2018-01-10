@@ -12,7 +12,7 @@
         <link rel="apple-touch-icon-precomposed" href="images/icon.png" />
     </head>
     
-    <body>
+    <body onload="onloadFunctionViewRegion()">
         <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
           <header class="mdl-layout__header">
             <button onclick="location.href = 'index.html';" class="mdl-layout-icon mdl-button mdl-js-button mdl-button--icon"> 
@@ -24,13 +24,38 @@
           </header>
 
           <main class="mdl-layout__content">
-            <!--   Main page content here:   -->  
-                
+              <!--   Main page content here:   -->
+              <div id="map"></div>
+              <div id="buttonFloat5">
+                    <!-- Mini FAB button -->
+                    <button class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-button--colored" onclick="centerOnRegion()">
+                        <i class="material-icons">my_location</i>
+                    </button>
+                </div>
           </main>
           <div id="toast" class="mdl-js-snackbar mdl-snackbar">
             <div class="mdl-snackbar__text"></div>
             <button class="mdl-snackbar__action" type="button"></button>
           </div>
+            <div id="buttonFloat4">
+                    <!-- Colored FAB button with ripple -->
+                    <button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored mdl-shadow--16dp" onclick="togglePosts()">
+                        <i class="material-icons">layers</i>
+                    </button>
+            </div>
+            <span>
+                <div id="chipFloat">
+                    <span class="mdl-chip mdl-chip--contact mdl-shadow--16dp">
+                        <span class="mdl-chip__contact mdl-color--orange mdl-color-text--white">A</span>
+                        <span class="mdl-chip__text">Area = <span id="area">X</span> m<sup style="font-size: 8px">2</sup></span>
+                    </span>
+                    <p></p>
+                    <span class="mdl-chip mdl-chip--contact mdl-shadow--16dp">
+                        <span class="mdl-chip__contact mdl-color--orange mdl-color-text--white">P</span>
+                        <span class="mdl-chip__text">Perimeter = <span id="perimeter">Y</span> m</span>
+                    </span>
+                </div>
+            </span>
         </div>
 
         <!--   JavaScript files:   -->
