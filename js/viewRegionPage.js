@@ -56,8 +56,8 @@ function initMap() {
 
     testLatLng = new google.maps.LatLng(regionInstance._cornerLocations);
     
-    calculatedData.area = google.maps.geometry.spherical.computeArea({path: testLatLng,radius: 6378137});
-    calculatedData.perimeter = google.maps.geometry.spherical.computeLength({path: testLatLng,radius: 6378137});
+    calculatedData.area = google.maps.geometry.spherical.computeArea(testLatLng);
+    calculatedData.perimeter = google.maps.geometry.spherical.computeLength(testLatLng);
     
     console.log(calculatedData.area);
     console.log(calculatedData.perimeter);
