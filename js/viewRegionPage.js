@@ -27,7 +27,7 @@ function onloadFunctionViewRegion() {
 }
 
 function togglePosts() {
-    localStorage.clear();
+    //localStorage.clear();
 }
 
 function centerOnRegion() {
