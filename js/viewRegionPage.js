@@ -1,9 +1,7 @@
 // Code for the View Region page.
-var map, infoWindow, locationInaccuracy, currentPos, regionPolygon, center;
+var map, infoWindow, locationInaccuracy, currentPos, regionPolygon, center, testLatLng;
 var calculatedData = {area:undefined,
                      perimeter:undefined};
-var newCornerLocations = [];
-var testLatLng = [];
 
 // The following is sample code to demonstrate navigation.
 // You need not use it for final app.
@@ -53,12 +51,14 @@ function initMap() {
         fillColor: '#800080',
         fillOpacity: 0.40
     });
-    
+    console.log(regionInstance._cornerLocations);
     regionPolygon.setMap(map);
-    calculatedData.area = google.maps.geometry.spherical.computeArea({path: regionPolygon.getPath()});
-    calculatedData.perimeter = google.maps.geometry.spherical.computeLength({path: regionPolygon.getPath()});
+
+    testLatLng = new google.maps.LatLng(regionInstance._cornerLocations);
     
-    console.log(regionPolygon.getPath());
+    calculatedData.area = google.maps.geometry.spherical.computeArea({path: testLatLng,radius: 6378137});
+    calculatedData.perimeter = google.maps.geometry.spherical.computeLength({path: testLatLng,radius: 6378137});
+    
     console.log(calculatedData.area);
     console.log(calculatedData.perimeter);
 }
