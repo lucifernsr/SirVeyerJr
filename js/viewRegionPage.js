@@ -1,5 +1,5 @@
 // Code for the View Region page.
-var map, infoWindow, locationInaccuracy, currentPos, regionPolygon;
+var map, infoWindow, locationInaccuracy, currentPos, regionPolygon, center;
 var calculatedData = {area:undefined,
                      perimeter:undefined};
 
@@ -27,7 +27,7 @@ function onloadFunctionViewRegion() {
 }
 
 function togglePosts() {
-    
+    localStorage.clear();
 }
 
 function centerOnRegion() {
@@ -35,9 +35,9 @@ function centerOnRegion() {
 }
 
 function initMap() {
-    // Initialise map, centred on UCL, Sri Lanka.        
+    // Initialise map, centred on the first point of the polygon.        
     map = new google.maps.Map(document.getElementById('map'), {
-        center: {lat: 6.9064, lng: 79.9046},
+        center: regionInstance._cornerLocations[0],
         zoom: 16    
     });
     
