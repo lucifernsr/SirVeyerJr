@@ -10,16 +10,16 @@ html, body {
     height: calc(100vh - 56px);
 }
 
+#footerElements {
+    margin:0 auto;
+    display:block;
+}
+
 #buttonFloat5 {
     position: absolute;
     right: 4px;
     bottom: 128px;
     z-index: 3;
-}
-
-#footerElements {
-    margin:0 auto;
-    display:block;
 }
 
 #buttonFloat4 {
@@ -47,6 +47,13 @@ html, body {
     position: absolute;
     left: 12px;
     bottom: 216px;
+    z-index: 3;
+}
+
+#chipFloat {
+    position: absolute;
+    left: 100px;
+    bottom: 24px;
     z-index: 3;
 }
 
