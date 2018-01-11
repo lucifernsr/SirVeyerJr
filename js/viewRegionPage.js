@@ -11,7 +11,7 @@ var testLatLng = [];
 var regionIndex = localStorage.getItem(APP_PREFIX + "-selectedRegion");
 var regionInstance = JSON.parse(localStorage.getItem(`${APP_PREFIX}.Region${regionIndex}`));
 
-//regionInstance._cornerLocations.push(regionInstance._cornerLocations[0]);
+regionInstance._cornerLocations.push(regionInstance._cornerLocations[0]);
 
 var areaRef = document.getElementById("area");
 var perimeterRef = document.getElementById("perimeter");
@@ -61,8 +61,8 @@ function initMap() {
 		testLatLng[i] = new google.maps.LatLng(regionInstance._cornerLocations[i]);
     }
     
-    calculatedData.area = google.maps.geometry.spherical.computeArea(testLatLng);
-    calculatedData.perimeter = google.maps.geometry.spherical.computeLength(testLatLng);
+    calculatedData.area = google.maps.geometry.spherical.computeArea(testLatLng).toFixed(4);
+    calculatedData.perimeter = google.maps.geometry.spherical.computeLength(testLatLng).toFixed(4);
     
     //console.log(calculatedData.area);
     //console.log(calculatedData.perimeter);
