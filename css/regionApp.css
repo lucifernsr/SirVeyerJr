@@ -15,6 +15,12 @@ html, body {
     display:block;
 }
 
+#buttonFloat6 {
+    position: absolute;
+    right: 16px;
+    z-index: 3;
+}
+
 #buttonFloat5 {
     position: absolute;
     right: 4px;
