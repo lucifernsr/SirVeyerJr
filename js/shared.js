@@ -74,17 +74,46 @@ function getDateAndTimeString(dateAndTime) {
     return dateAndTimeString;
 }
 
+//
+function createMap(thisCenter) {
+    return new google.maps.Map(document.getElementById('map'), {
+        center: thisCenter,
+        zoom: 16    
+    });
+}
+
+//
+function createPolygon(thisPath, thisColor) {
+    return new google.maps.Polygon({
+        path: thisPath,
+        geodesic: true,
+        strokeColor: thisColor,
+        strokeOpacity: 0.8,
+        strokeWeight: 2,
+        fillColor: thisColor,
+        fillOpacity: 0.35
+    });
+}
+
 // Defining class for a Region instance.
 class Region {
     // Defining the constructor variables for the Region class.
-    constructor() {
+    constructor(Nickname, DateAndTime, CornerLocations) {
         // Private attributes
-        this._nickname = null;;
-        this._dateAndTime = new Date();
-        this._cornerLocations = [];
+        this._nickname = Nickname;
+        this._dateAndTime = DateAndTime;
+        this._cornerLocations = CornerLocations;
+        
+        // Getting the corner locations and bounds as an instance of Google Maps LatLng class.
+        this._cornerLocationsLatLng = [];
+        this._bounds = new google.maps.LatLngBounds();
+        for (var i in this._cornerLocations) {
+            this._cornerLocationsLatLng[i] = new google.maps.LatLng(this._cornerLocations[i]);
+            this._bounds.extend(this._cornerLocationsLatLng[i]);
+        }
     }
     
-    // Defining the public methods which can be accessed once an instance is being created from this class.
+    // Defining the public methods which can be accessed once a Region instance is created from this class.
     get nickname() {
         return this._nickname;
     };
@@ -94,8 +123,14 @@ class Region {
     get cornerLocations() {
         return this._cornerLocations;
     };
+    get cornerLocationsLatLng() {
+        return this._cornerLocationsLatLng;
+    }
+    get bounds() {
+        return this._bounds;
+    }
     
-    // Defining the public methods which can be used to modify an existing class.
+    // Defining the public methods which can be used to modify once a Region instance is created from this class.
     set nickname(Nickname) {
         this._nickname = Nickname;
     };
@@ -114,4 +149,12 @@ class Region {
     set deleteAllCorners(numOfCorners) {
         this._cornerLocations = [];
     };
+    
+    // Defining the public methods which can be used to get the calculated Area and the Perimeter.
+    get area() {
+        return google.maps.geometry.spherical.computeArea(this._cornerLocationsLatLng).toFixed(4);
+    }
+    get perimeter() {
+        return google.maps.geometry.spherical.computeLength(this._cornerLocationsLatLng).toFixed(4);
+    }
 }
