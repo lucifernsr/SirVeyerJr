@@ -54,5 +54,5 @@ function centerButton() {
 }
 
 function deleteRegion() {
-    
+    localStorage.clear();
 }
