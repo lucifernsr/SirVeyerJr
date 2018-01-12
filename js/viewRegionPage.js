@@ -4,6 +4,7 @@ var calculatedData = {area:undefined,
                      perimeter:undefined};
 
 var testLatLng = [];
+var regionsList = JSON.parse(localStorage.getItem("localRegions"));
 
 // The following is sample code to demonstrate navigation.
 // You need not use it for final app.
@@ -15,26 +16,6 @@ regionInstance._cornerLocations.push(regionInstance._cornerLocations[0]);
 
 var areaRef = document.getElementById("area");
 var perimeterRef = document.getElementById("perimeter");
-
-function onloadFunctionViewRegion() {
-    if (regionIndex !== null) {
-        // If a region index was specified, show name in header bar title. This
-        // is just to demonstrate navigation.  You should set the page header bar
-        // title to an appropriate description of the region being displayed.
-        document.getElementById("headerBarTitle").textContent = regionInstance._nickname;
-        
-        areaRef.textContent = calculatedData.area;
-        perimeterRef.textContent = calculatedData.perimeter;
-    }
-}
-
-function togglePosts() {
-    //localStorage.clear();
-}
-
-function centerOnRegion() {
-    
-}
 
 function initMap() {
     // Initialise map, centred on the first point of the polygon.        
@@ -54,16 +35,42 @@ function initMap() {
         fillColor: '#800080',
         fillOpacity: 0.40
     });
-    //console.log(regionInstance._cornerLocations);
-    regionPolygon.setMap(map);
     
-    for (var i in regionInstance._cornerLocations) {
-		testLatLng[i] = new google.maps.LatLng(regionInstance._cornerLocations[i]);
+    regionPolygon.setMap(map);
+}
+
+function onloadFunctionViewRegion() {
+    if (regionIndex !== null) {
+        // If a region index was specified, show name in header bar title. This
+        // is just to demonstrate navigation.  You should set the page header bar
+        // title to an appropriate description of the region being displayed.
+        document.getElementById("headerBarTitle").textContent = regionInstance._nickname;
+        
+        for (var i in regionInstance._cornerLocations) {
+            testLatLng[i] = new google.maps.LatLng(regionInstance._cornerLocations[i]);
+        }
+    
+        calculatedData.area = google.maps.geometry.spherical.computeArea(testLatLng).toFixed(4);
+        calculatedData.perimeter = google.maps.geometry.spherical.computeLength(testLatLng).toFixed(4);
+        
+        areaRef.textContent = calculatedData.area;
+        perimeterRef.textContent = calculatedData.perimeter;
+    }
+}
+
+function togglePosts() {
+    //localStorage.clear();
+    
+}
+
+function centerOnRegion() {
+    var bounds = new google.maps.LatLngBounds();
+
+    for (var i = 0; i < testLatLng.length; i++) {
+        bounds.extend(testLatLng[i]);
     }
     
-    calculatedData.area = google.maps.geometry.spherical.computeArea(testLatLng).toFixed(4);
-    calculatedData.perimeter = google.maps.geometry.spherical.computeLength(testLatLng).toFixed(4);
-    
-    //console.log(calculatedData.area);
-    //console.log(calculatedData.perimeter);
+    //console.log(bounds.getCenter());
+    map.setCenter(bounds.getCenter());
+    map.fitBounds(bounds);
 }
