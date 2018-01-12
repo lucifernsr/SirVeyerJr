@@ -20,28 +20,33 @@ function onloadFunctionMainPage() {
     // Get the list of regions from localStorage and modifies the index page.
     var myRegions = JSON.parse(localStorage.getItem("localRegions"));
     
-    if (myRegions.length > 0) {
-        //createNewCardAndAppend(0);
-        for (var counter in myRegions) {
-            var thisRegion = JSON.parse(localStorage.getItem(myRegions[counter]));
-            createNewCardAndAppend(counter, thisRegion);
-        }
+    if (myRegions !== null) {
+        if (myRegions.length > 0) {
+            //createNewCardAndAppend(0);
+            for (var counter in myRegions) {
+                var thisRegionPDO = JSON.parse(localStorage.getItem(myRegions[counter]));
+                var thisRegion = new Region(thisRegionPDO.name, thisRegionPDO.date, thisRegionPDO.corners);
+                createNewCardAndAppend(counter, thisRegion);
+            }
         
-        // Remove the dummy card.
-        mainRef.removeChild(regionElementRef);
+            // Remove the dummy card.
+            mainRef.removeChild(regionElementRef);
+        }
     }
+    
 }
 
 function createNewCardAndAppend(counter, refRegion) {
     // Create a new card referring the dummy card.
     var newRegionElement = document.importNode(regionElementRef,true);
+    
     // Modify the content of card created.
     var index = Number(counter) + 2;
     newRegionElement.id = `regionElemet${counter}`;
     var childs = newRegionElement.childNodes[3].childNodes;
     childs[1].style.background = `url(images/cardImg0${index}.jpg) center / cover`;
-    childs[1].childNodes[1].innerText = refRegion._nickname;
-    childs[3].innerText = refRegion._dateAndTime;
+    childs[1].childNodes[1].innerText = refRegion.nickname;
+    childs[3].innerText = refRegion.dateAndTime;
     childs[5].childNodes[1].innerText = "View Region";
     childs[5].childNodes[1].setAttribute( "onClick", `javascript: viewRegion(${counter});`);
     
