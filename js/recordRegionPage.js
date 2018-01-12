@@ -17,11 +17,7 @@ function makeLatLngObj(position) {
 // Map Initialisation callback.  Will be called when Maps API loads.
 function initMap() {        
     // Initialise map, centred on UCL, Sri Lanka.        
-    map = new google.maps.Map(document.getElementById('map'), {
-        center: {lat: 6.9064, lng: 79.9046},
-        zoom: 16    
-    });
-    
+    map = createMap({lat: 6.9064, lng: 79.9046});
     // Initialise a marker to display the current location.
     var currentLocationMarker = new google.maps.Marker({
         position: null,
@@ -34,18 +30,11 @@ function initMap() {
         map: map      
     });
     
-    regionPolygon = new google.maps.Polygon({
-        path: [],
-        geodesic: true,
-        strokeColor: '#800080',
-        strokeOpacity: 0.8,
-        strokeWeight: 2,
-        fillColor: '#800080',
-        fillOpacity: 0.35
-    });
+    regionPolygon = createPolygon([], '#800080');
     regionPolygon.setMap(map);
     
     // Using HTML5 Geolocation to get the current location/watch for any location changes.
+    //var centerBounds = new google.maps.LatLngBounds();
     if (navigator.geolocation) {
         navigator.geolocation.watchPosition(function(position) {
             // Location inaccuracy.
@@ -60,7 +49,7 @@ function initMap() {
             map.setCenter(pos);
         }, 
                                             function() {
-            handleLocationError(true, infoWindow, map.getCenter());      
+            handleLocationError(true, infoWindow);      
         },
                                            {enableHighAccuracy: true, 
                                             maximumAge        : 8000, 
@@ -73,7 +62,7 @@ function initMap() {
 }
 
 // Location error function.
-function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+function handleLocationError(browserHasGeolocation, infoWindow) {
     if (browserHasGeolocation) {
         displayMessage("Please Allow The Location Services", 4000);
     }
@@ -83,40 +72,44 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
 }
 
 // A function for create a new Region instance with an each page load.
+function createRegion() {
+    regionInstance = new Region("null",getDateAndTimeString(new Date()), []);
+}
 
 function recenter() {
     map.panTo(currentPos);
 }
 
-function createRegion() {
-    regionInstance = new Region;
-}
-
 // Add corner function.
 function addCorner() {
-    //if (locationInaccuracy !== true) {
-        regionInstance.cornerLocation = currentPos;
-        displayMessage("Corner Added.", 1000);
-        regionPolygon.setMap(null);
-        regionPolygon.setOptions({paths: regionInstance.cornerLocations});
-        regionPolygon.setMap(map);
-    /**
+    if (currentPos !== undefined) {
+        //if (locationInaccuracy !== true) {
+            regionInstance.cornerLocation = currentPos;
+            displayMessage("Corner Added.", 1000);
+            regionPolygon.setMap(null);
+            regionPolygon.setOptions({paths: regionInstance.cornerLocations});
+            regionPolygon.setMap(map);
+        /**
+        }
+        //else {
+            displayMessage("Corner saving unsuccesful.");
+        } **/
     }
-    //else {
-        displayMessage("Corner saving unsuccesful.")
-    } **/
+    else {
+            displayMessage("Please wait for the location to be initialized.");
+    }
 }
 
 // Delete corner function.
 function deleteCorner() {
     if (regionInstance.cornerLocations.length > 0) {
             if (confirm('Are you sure you want to remove the last corner added?')) {
-            regionInstance.deleteThisNumOfCorners(1);
-            displayMessage("Corner Deleted.", 1000);
-            regionPolygon.setMap(null);
-            regionPolygon.setOptions({paths: regionInstance.cornerLocations});
-            regionPolygon.setMap(map);
-        }
+                regionInstance.deleteThisNumOfCorners = 1;
+                displayMessage("Corner Deleted.", 1000);
+                regionPolygon.setMap(null);
+                regionPolygon.setOptions({paths: regionInstance.cornerLocations});
+                regionPolygon.setMap(map);
+            }
     }
     else {
         displayMessage("No corners to remove!");
@@ -127,7 +120,7 @@ function deleteCorner() {
 function resetRegion() {
     if (regionInstance.cornerLocations.length > 0) {    
         if (confirm('Are you sure you want to reset the region?')) {
-            regionInstance.deleteAllCorners(1);
+            regionInstance.deleteAllCorners = 1;
             displayMessage("Region Cleared.", 1000);
             regionPolygon.setMap(null);
             regionPolygon.setOptions({paths: regionInstance.cornerLocations});
@@ -151,14 +144,15 @@ function saveRegion() {
     
         // Saving the Region instance in localStorage.
         var newKey = `${APP_PREFIX}.Region${newRegionIndex}`;
-        var newValue = JSON.stringify(regionInstance);
-        localStorage.setItem(newKey,newValue);
+        var regionPDO = {name: regionInstance.nickname,
+                         date: regionInstance.dateAndTime,
+                         corners: regionInstance.cornerLocations};
+        var newValue = JSON.stringify(regionPDO);
+        localStorage.setItem(newKey, newValue);
         modifyLocalRegions(newKey);
-        
-        console.log(regionInstance);
     
         // Clear the saved region and initialize the Index page.
-        regionInstance = new Region;
+        createRegion();
         location.href="index.html"
     }
     else {
