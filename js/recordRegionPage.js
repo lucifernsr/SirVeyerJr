@@ -1,5 +1,5 @@
 // Code for the Record Region page.
-var map, infoWindow, regionInstance, locationInaccuracy, currentPos, regionPolygon;
+var map, regionInstance, locationInaccuracy, currentPos, regionPolygon;
 
 // Record region page onload function.
 function onloadFunctionRecordRegion() {
@@ -151,7 +151,7 @@ function saveRegion() {
         localStorage.setItem(newKey, newValue);
         modifyLocalRegions(newKey);
     
-        // Clear the saved region and initialize the Index page.
+        // Clear the region instance and initialize the Index page.
         createRegion();
         location.href="index.html"
     }
