@@ -9,7 +9,7 @@ var regionsList = JSON.parse(localStorage.getItem("localRegions"));
 // The following is sample code to demonstrate navigation.
 // You need not use it for final app.
 
-var regionIndex = localStorage.getItem(APP_PREFIX + "-selectedRegion");
+var regionIndex = Number(localStorage.getItem(APP_PREFIX + "-selectedRegion"));
 var regionInstancePDO = JSON.parse(localStorage.getItem(`${APP_PREFIX}.Region${regionIndex}`));
 //regionInstance.cornerLocation = regionInstance.cornerLocations[0];
 
@@ -41,7 +41,6 @@ function initMap() {
                 scaledSize: new google.maps.Size(17, 36) 
             },
             optimized: false,
-            
             title:"Optimal fence post location"
         });
         fencePostsMarkers.push(marker);
@@ -85,4 +84,27 @@ function centerButton() {
 }
 
 function deleteRegion() {
+    if (confirm("Are you sure that you want to permanatly delete this region?")) {
+        if ((regionIndex === 0) && (regionsList.length === 1)) {
+            localStorage.clear();
+            location.href = 'index.html';
+        }
+        else {
+            var regionKey = `${APP_PREFIX}.Region${regionIndex}`;
+            localStorage.removeItem(regionKey);
+    
+            for (var j = regionIndex + 1; j <= regionsList.length; j++) {
+                var lastKey = `${APP_PREFIX}.Region${j-1}`
+                var thisKey = `${APP_PREFIX}.Region${j}`;
+                var thisRegionPDO = localStorage.getItem(thisKey);
+                localStorage.setItem(lastKey, thisRegionPDO);
+            }
+    
+            localStorage.removeItem(`${APP_PREFIX}.Region${regionsList.length}`);
+            regionsList.pop();
+            localStorage.setItem("localRegions", JSON.stringify(regionsList));
+            location.href = 'index.html';
+        }
+    }
+    
 }
