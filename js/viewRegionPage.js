@@ -1,5 +1,7 @@
 // Code for the View Region page.
-var map, infoWindow, locationInaccuracy, currentPos, regionPolygon, bounds, center, regionInstance;
+var map, regionPolygon, bounds, center, regionInstance;
+
+var fencePostsMarkers = [];
 
 var regionsList = JSON.parse(localStorage.getItem("localRegions"));
 
@@ -17,6 +19,7 @@ function initMap() {
     regionInstance = new Region(regionInstancePDO.name, regionInstancePDO.date, regionInstancePDO.corners);
     bounds = regionInstance.bounds;
     center = bounds.getCenter();
+    fencePosts = regionInstance.boundaryFencePosts;
     
     // Initialise map, centred on the first point of the polygon.        
     map = createMap(center);
@@ -26,6 +29,16 @@ function initMap() {
     regionPolygon = regionPolygon = createPolygon(regionInstance.cornerLocations, '#0000FF');
     
     regionPolygon.setMap(map);
+    
+    // Initialize the markers for fence posts.
+    for (var points in fencePosts) {
+        var marker = new google.maps.Marker({
+    
+            position: fencePosts[points],
+            title:"Hello World!"
+        });
+        fencePostsMarkers.push(marker);
+    }
 }
 
 function onloadFunctionViewRegion() {
@@ -41,7 +54,10 @@ function onloadFunctionViewRegion() {
 }
 
 function togglePosts() {
-    //localStorage.clear();
+    for (var item in fencePostsMarkers) {
+        fencePostsMarkers[item].setMap(map);
+    }
+    console.log(regionInstance.boundaryFencePosts);
 }
 
 function centerOnRegion(bounds, center) {
