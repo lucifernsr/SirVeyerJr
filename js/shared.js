@@ -1,110 +1,191 @@
-// Code for the View Region page.
-var map, regionPolygon, bounds, center, regionInstance;
+// Shared code needed by the code of all three pages.
 
-var fencePostsMarkers = [];
-var postsOn = false;
+// Prefix to use for Local Storage.  You may change this.
+var APP_PREFIX = "teamNameUndefined.sirVeyerJr";
 
-var regionsList = JSON.parse(localStorage.getItem("localRegions"));
-
-// The following is sample code to demonstrate navigation.
-// You need not use it for final app.
-
-var regionIndex = Number(localStorage.getItem(APP_PREFIX + "-selectedRegion"));
-var regionInstancePDO = JSON.parse(localStorage.getItem(`${APP_PREFIX}.Region${regionIndex}`));
-//regionInstance.cornerLocation = regionInstance.cornerLocations[0];
-
-var areaRef = document.getElementById("area");
-var perimeterRef = document.getElementById("perimeter");
-
-function initMap() {
-    regionInstance = new Region(regionInstancePDO.name, regionInstancePDO.date, regionInstancePDO.corners);
-    bounds = regionInstance.bounds;
-    center = bounds.getCenter();
-    fencePosts = regionInstance.boundaryFencePosts;
-    
-    // Initialise map, centred on the first point of the polygon.        
-    map = createMap(center);
-    centerOnRegion(bounds, center);
-    
-    // Initialize the region polygon.
-    regionPolygon = regionPolygon = createPolygon(regionInstance.cornerLocations, '#0000FF');
-    
-    regionPolygon.setMap(map);
-    
-    // Initialize the markers for fence posts.
-    for (var points in fencePosts) {
-        var marker = new google.maps.Marker({
-            position: fencePosts[points],
-            icon: {
-                url: 'images/fencePost.png',
-                size: new google.maps.Size(17, 36),
-                scaledSize: new google.maps.Size(17, 36) 
-            },
-            optimized: false,
-            title:"Optimal fence post location"
-        });
-        fencePostsMarkers.push(marker);
+function checkLocalRegions() {
+    // Array of saved Region objects.
+    if (!localStorage.getItem("localRegions")) {
+        var savedRegions = JSON.stringify([]);
+        localStorage.setItem("localRegions",savedRegions);
     }
 }
 
-function onloadFunctionViewRegion() {
-    if (regionIndex !== null) {
-        // If a region index was specified, show name in header bar title. This
-        // is just to demonstrate navigation.  You should set the page header bar
-        // title to an appropriate description of the region being displayed.
-        document.getElementById("headerBarTitle").textContent = regionInstance.nickname;
+function modifyLocalRegions(newRegionKey) {
+    var myRegions = JSON.parse(localStorage.getItem("localRegions"));
+    myRegions.push(newRegionKey);
+    localStorage.setItem("localRegions", JSON.stringify(myRegions));
+}
+
+// This function displays the given message String as a "toast" message at
+// the bottom of the screen.  It will be displayed for 2 second, or if the
+// number of milliseconds given by the timeout argument if specified.
+function displayMessage(message, timeout)
+{
+    if (timeout === undefined)
+    {
+        // Timeout argument not specifed, use default.
+        timeout = 2000;
+    } 
+
+    if (typeof(message) == 'number')
+    {
+        // If argument is a number, convert to a string.
+        message = message.toString();
+    }
+
+    if (typeof(message) != 'string')
+    {
+        console.log("displayMessage: Argument is not a string.");
+        return;
+    }
+
+    if (message.length == 0)
+    {
+        console.log("displayMessage: Given an empty string.");
+        return;
+    }
+
+    var snackbarContainer = document.getElementById('toast');
+    var data = {
+        message: message,
+        timeout: timeout
+    };
+    if (snackbarContainer && snackbarContainer.hasOwnProperty("MaterialSnackbar"))
+    {
+        snackbarContainer.MaterialSnackbar.showSnackbar(data);
+    }
+}
+
+// A function to output the Date and the time as a string.
+function getDateAndTimeString(dateAndTime) {
+    var dateAndTimeString, year, month, date, day, hour, minute, second;
+    var dayRef = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    var monthRef = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    year = dateAndTime.getFullYear();
+    month = dateAndTime.getMonth();
+    date = dateAndTime.getDate();
+    day = dateAndTime.getDay();
+    hour = dateAndTime.getHours();
+    minute = dateAndTime.getMinutes();
+    second = dateAndTime.getSeconds();
+    
+    dateAndTimeString = `${hour}:${minute}:${second} ${dayRef[day]}, ${monthRef[month]} ${date}, ${year}`;
+    return dateAndTimeString;
+}
+
+//
+function createMap(thisCenter) {
+    return new google.maps.Map(document.getElementById('map'), {
+        center: thisCenter,
+        zoom: 16    
+    });
+}
+
+//
+function createPolygon(thisPath, thisColor) {
+    return new google.maps.Polygon({
+        path: thisPath,
+        geodesic: true,
+        strokeColor: thisColor,
+        strokeOpacity: 0.8,
+        strokeWeight: 2,
+        fillColor: thisColor,
+        fillOpacity: 0.35
+    });
+}
+
+// Defining class for a Region instance.
+class Region {
+    // Defining the constructor variables for the Region class.
+    constructor(Nickname, DateAndTime, CornerLocations) {
+        // Defining the private attributes of the class.
+        this._nickname = Nickname;
+        this._dateAndTime = DateAndTime;
+        this._cornerLocations = CornerLocations;
+        this._fencePostsLocations = [];
         
-        areaRef.textContent = regionInstance.area;
-        perimeterRef.textContent = regionInstance.perimeter;
-    }
-}
-
-function togglePosts() {
-    if (postsOn !== true) {
-        for (var item in fencePostsMarkers) {
-            fencePostsMarkers[item].setMap(map);
+        // Getting the corner locations and bounds as an instance of Google Maps LatLng class.
+        this._cornerLocationsLatLng = [];
+        this._bounds = new google.maps.LatLngBounds();
+        for (var i in this._cornerLocations) {
+            this._cornerLocationsLatLng[i] = new google.maps.LatLng(this._cornerLocations[i]);
+            this._bounds.extend(this._cornerLocationsLatLng[i]);
         }
-        postsOn = true;
+        this._cornerLocationsLatLng.push(this._cornerLocationsLatLng[0]);
     }
-    else {
-        for (var item in fencePostsMarkers) {
-            fencePostsMarkers[item].setMap(null);
-        }
-        postsOn = false;
-    }
-}
-
-function centerOnRegion(bounds, center) {
-    map.setCenter(center);
-    map.fitBounds(bounds);
-}
-
-function centerButton() {
-    centerOnRegion(bounds, center);
-}
-
-function deleteRegion() {
-    if (confirm("Are you sure that you want to permanatly delete this region?")) {
-        if ((regionIndex === 0) && (regionsList.length === 1)) {
-            localStorage.clear();
-            location.href = 'index.html';
-        }
-        else {
-            var regionKey = `${APP_PREFIX}.Region${regionIndex}`;
-            localStorage.removeItem(regionKey);
     
-            for (var j = regionIndex + 1; j <= regionsList.length; j++) {
-                var lastKey = `${APP_PREFIX}.Region${j-1}`
-                var thisKey = `${APP_PREFIX}.Region${j}`;
-                var thisRegionPDO = localStorage.getItem(thisKey);
-                localStorage.setItem(lastKey, thisRegionPDO);
+    // Defining the public methods which can be accessed once a Region instance is created from this class.
+    get nickname() {
+        return this._nickname;
+    };
+    get dateAndTime() {
+        return this._dateAndTime;
+    };
+    get cornerLocations() {
+        return this._cornerLocations;
+    };
+    get cornerLocationsLatLng() {
+        return this._cornerLocationsLatLng;
+    }
+    get bounds() {
+        return this._bounds;
+    }
+    
+    // Defining the public methods which can be used to modify once a Region instance is created from this class.
+    set nickname(Nickname) {
+        this._nickname = Nickname;
+    };
+    set dateAndTime(DateAndTime) {
+        this._dateAndTime = DateAndTime;
+    };
+    set cornerLocation(newLocation) {
+        var i = this._cornerLocations.length;
+        this._cornerLocations[i] = newLocation;
+    };
+    set deleteThisNumOfCorners(numOfCorners) {
+        for (var i = 0; i< numOfCorners ; i++) {
+            this._cornerLocations.pop();
+        }
+    };
+    set deleteAllCorners(numOfCorners) {
+        this._cornerLocations = [];
+    };
+    
+    // Defining the public methods which can be used to get the calculated Area and the Perimeter.
+    get area() {
+        return google.maps.geometry.spherical.computeArea(this._cornerLocationsLatLng).toFixed(4);
+    }
+    get perimeter() {
+        return google.maps.geometry.spherical.computeLength(this._cornerLocationsLatLng).toFixed(4);
+    }
+    
+    // Defining the public method which can be used to get an array of suggested fence post locations.
+    get boundaryFencePosts() {
+        var test = [];
+        for (var k in this._cornerLocationsLatLng) {
+            k = Number(k);
+            if (k+1 < this._cornerLocationsLatLng.length) {
+                var thisPoint = this._cornerLocationsLatLng[k];
+                var nextPoint = this._cornerLocationsLatLng[k+1];
+                var distance = google.maps.geometry.spherical.computeDistanceBetween(thisPoint,nextPoint).toFixed(4);
+                var maxDistance = 4;
+                if (distance <= maxDistance) {
+                    this._fencePostsLocations.push(thisPoint);
+                }
+                else if (distance > maxDistance) {
+                    var numOfPosts = Math.floor(distance/maxDistance);
+                    var fraction = 1 / numOfPosts;
+                    for (var j = 0; j <= 1; j += fraction) {
+                        var fitted = google.maps.geometry.spherical.interpolate(thisPoint, nextPoint, j);
+                        this._fencePostsLocations.push(fitted);
+                    }
+                }
             }
-    
-            localStorage.removeItem(`${APP_PREFIX}.Region${regionsList.length}`);
-            regionsList.pop();
-            localStorage.setItem("localRegions", JSON.stringify(regionsList));
-            location.href = 'index.html';
+            else {
+                this._fencePostsLocations.push(this._cornerLocationsLatLng[k+1])
+            }
         }
+        return this._fencePostsLocations;
     }
-    
 }

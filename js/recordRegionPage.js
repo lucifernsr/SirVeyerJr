@@ -83,7 +83,7 @@ function recenter() {
 // Add corner function.
 function addCorner() {
     if (currentPos !== undefined) {
-        //if (locationInaccuracy !== true) {
+        // if (locationInaccuracy !== true) {
             regionInstance.cornerLocation = currentPos;
             displayMessage("Corner Added.", 1000);
             regionPolygon.setMap(null);
