@@ -99,10 +99,11 @@ function createPolygon(thisPath, thisColor) {
 class Region {
     // Defining the constructor variables for the Region class.
     constructor(Nickname, DateAndTime, CornerLocations) {
-        // Private attributes
+        // Defining the private attributes of the class.
         this._nickname = Nickname;
         this._dateAndTime = DateAndTime;
         this._cornerLocations = CornerLocations;
+        this._fencePostsLocations = [];
         
         // Getting the corner locations and bounds as an instance of Google Maps LatLng class.
         this._cornerLocationsLatLng = [];
@@ -156,5 +157,34 @@ class Region {
     }
     get perimeter() {
         return google.maps.geometry.spherical.computeLength(this._cornerLocationsLatLng).toFixed(4);
+    }
+    
+    // Defining the public method which can be used to get an array of suggested fence post locations.
+    get boundaryFencePosts() {
+        var test = [];
+        for (var k in this._cornerLocationsLatLng) {
+            k = Number(k);
+            if (k+1 < this._cornerLocationsLatLng.length) {
+                var thisPoint = this._cornerLocationsLatLng[k];
+                var nextPoint = this._cornerLocationsLatLng[k+1];
+                var distance = google.maps.geometry.spherical.computeDistanceBetween(thisPoint,nextPoint).toFixed(4);
+                var maxDistance = 4;
+                if (distance <= maxDistance) {
+                    this._fencePostsLocations.push(thisPoint);
+                }
+                else if (distance > maxDistance) {
+                    var numOfPosts = Math.floor(distance/maxDistance);
+                    var fraction = 1 / numOfPosts;
+                    for (var j = 0; j <= 1; j += fraction) {
+                        var fitted = google.maps.geometry.spherical.interpolate(thisPoint, nextPoint, j);
+                        this._fencePostsLocations.push(fitted);
+                    }
+                }
+            }
+            else {
+                this._fencePostsLocations.push(this._cornerLocationsLatLng[k+1])
+            }
+        }
+        return this._fencePostsLocations;
     }
 }
