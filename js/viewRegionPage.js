@@ -2,6 +2,7 @@
 var map, regionPolygon, bounds, center, regionInstance;
 
 var fencePostsMarkers = [];
+var postsOn = false;
 
 var regionsList = JSON.parse(localStorage.getItem("localRegions"));
 
@@ -33,9 +34,15 @@ function initMap() {
     // Initialize the markers for fence posts.
     for (var points in fencePosts) {
         var marker = new google.maps.Marker({
-    
             position: fencePosts[points],
-            title:"Hello World!"
+            icon: {
+                url: 'images/fencePost.png',
+                size: new google.maps.Size(17, 36),
+                scaledSize: new google.maps.Size(17, 36) 
+            },
+            optimized: false,
+            
+            title:"Optimal fence post location"
         });
         fencePostsMarkers.push(marker);
     }
@@ -54,10 +61,18 @@ function onloadFunctionViewRegion() {
 }
 
 function togglePosts() {
-    for (var item in fencePostsMarkers) {
-        fencePostsMarkers[item].setMap(map);
+    if (postsOn !== true) {
+        for (var item in fencePostsMarkers) {
+            fencePostsMarkers[item].setMap(map);
+        }
+        postsOn = true;
     }
-    console.log(regionInstance.boundaryFencePosts);
+    else {
+        for (var item in fencePostsMarkers) {
+            fencePostsMarkers[item].setMap(null);
+        }
+        postsOn = false;
+    }
 }
 
 function centerOnRegion(bounds, center) {
