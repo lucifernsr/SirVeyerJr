@@ -112,6 +112,7 @@ class Region {
             this._cornerLocationsLatLng[i] = new google.maps.LatLng(this._cornerLocations[i]);
             this._bounds.extend(this._cornerLocationsLatLng[i]);
         }
+        this._cornerLocationsLatLng.push(this._cornerLocationsLatLng[0]);
     }
     
     // Defining the public methods which can be accessed once a Region instance is created from this class.
