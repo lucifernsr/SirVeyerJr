@@ -86,7 +86,25 @@ function togglePosts() {
         }
         postsOn = false;
     }
-    displayMessage(`Number of Fence Posts required: ${fencePostsMarkers.length}`,60000);
+    displayNumOfPostsChip(postsOn, fencePostsMarkers.length);
+}
+
+// A simple function to display the Number of fence posts required in a chip.
+function displayNumOfPostsChip(postsOn, num) {
+    var chipRef = document.getElementById("numOfFencePostsDynamicChip");
+    if (postsOn === true) {
+        chipRef.innerHTML = `<span class="mdl-chip mdl-chip--contact mdl-shadow--16dp">
+                                <span class="mdl-chip__contact mdl-color--orange mdl-color-text--white" style="font-family: 'Pacifico', cursive">
+                                    N
+                                </span>
+                                <span class="mdl-chip__text" style="font-family: 'Dosis', sans-serif">
+                                    Number of Fence Posts = ${num}
+                                </span>
+                            </span>`
+    }
+    else {
+        chipRef.innerHTML = "";
+    }
 }
 
 // A simple function to center and fit the region to the screen. 
