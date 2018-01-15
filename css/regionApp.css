@@ -63,6 +63,13 @@ html, body {
     z-index: 3;
 }
 
+#numOfFencePostsDynamicChip {
+    position: absolute;
+    left: 100px;
+    bottom: 128px;
+    z-index: 3;
+}
+
 .demo-card-wide.mdl-card {
     width: 92%;
     display: block;
@@ -84,7 +91,8 @@ html, body {
 }
 
 .setCenter {
-    text-align: center;
+    text-align: justify;
+    margin-left: 12px;
 }
 
 .logoStyle {
