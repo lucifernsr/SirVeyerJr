@@ -1,4 +1,21 @@
 // Shared code needed by the code of all three pages.
+/*
+ * Sir Veyer Jr. TM v2.0
+ *
+ * MCD4290 - Assignment 02 (2017 T3)
+ * 
+ * Author(s):   Team 02
+ *              Nuwan Sanjeewa, Raidh Ramzee, Randil Silva, Ujitha Hennayake
+ *
+ * This is the final submission file for the Assignment 02, the surveying app
+ * which contains the shared functions required to create an object from the 'Region'
+ * class with the inputs given and the initializing a map and a polygon which can be
+ * accsessed in any script file in the skeleton.
+ *
+ * This file acts as a place holder for all the key functions and a variables so that
+ * it would balance the load in order to minimize the runtime.
+ *
+*/
 
 // Prefix to use for Local Storage.  You may change this.
 var APP_PREFIX = "teamNameUndefined.sirVeyerJr";
@@ -102,7 +119,7 @@ class Region {
         // Defining the private attributes of the class.
         this._nickname = Nickname;
         this._dateAndTime = DateAndTime;
-        this._cornerLocations = CornerLocations;
+        this._cornerLocations = Array.from(new Set(CornerLocations));
         this._fencePostsLocations = [];
         
         // Getting the corner locations and bounds as an instance of Google Maps LatLng class.
@@ -165,25 +182,27 @@ class Region {
         var test = [];
         for (var k in this._cornerLocationsLatLng) {
             k = Number(k);
-            if (k+1 < this._cornerLocationsLatLng.length) {
-                var thisPoint = this._cornerLocationsLatLng[k];
-                var nextPoint = this._cornerLocationsLatLng[k+1];
-                var distance = google.maps.geometry.spherical.computeDistanceBetween(thisPoint,nextPoint).toFixed(4);
-                var maxDistance = 4;
-                if (distance <= maxDistance) {
-                    this._fencePostsLocations.push(thisPoint);
-                }
-                else if (distance > maxDistance) {
-                    var numOfPosts = Math.floor(distance/maxDistance);
-                    var fraction = 1 / numOfPosts;
-                    for (var j = 0; j <= 1; j += fraction) {
-                        var fitted = google.maps.geometry.spherical.interpolate(thisPoint, nextPoint, j);
-                        this._fencePostsLocations.push(fitted);
+            if (this._cornerLocationsLatLng[k] !== this._cornerLocationsLatLng[k+1]) {
+                if (k+1 < this._cornerLocationsLatLng.length) {
+                    var thisPoint = this._cornerLocationsLatLng[k];
+                    var nextPoint = this._cornerLocationsLatLng[k+1];
+                    var distance = google.maps.geometry.spherical.computeDistanceBetween(thisPoint,nextPoint).toFixed(4);
+                    var maxDistance = 4;
+                    if (distance <= maxDistance) {
+                        this._fencePostsLocations.push(thisPoint);
+                    }
+                    else if (distance > maxDistance) {
+                        var numOfPosts = Math.floor(distance/maxDistance);
+                        var fraction = 1 / numOfPosts;
+                        for (var j = 0; j <= 1; j += fraction) {
+                            var fitted = google.maps.geometry.spherical.interpolate(thisPoint, nextPoint, j);
+                            this._fencePostsLocations.push(fitted);
+                        }
                     }
                 }
-            }
-            else {
-                this._fencePostsLocations.push(this._cornerLocationsLatLng[k+1])
+                else {
+                    this._fencePostsLocations.push(this._cornerLocationsLatLng[k+1])
+                }
             }
         }
         return this._fencePostsLocations;
