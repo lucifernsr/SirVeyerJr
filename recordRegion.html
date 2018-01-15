@@ -3,6 +3,7 @@
     <head>
         <title>Sir Veyer Jr.</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="https://fonts.googleapis.com/css?family=Dosis|Exo+2|Pacifico|Titillium+Web" rel="stylesheet">
         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
         <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.cyan-orange.min.css" />
         <link rel="stylesheet" href="css/regionApp.css" />
@@ -19,36 +20,37 @@
                     <i class="material-icons">arrow_back</i>
                 </button>
                 <div class="mdl-layout__header-row">
-                    <span class="mdl-layout-title" id="headerBarTitle">Record Region</span>
+                    <span class="mdl-layout-title" id="headerBarTitle" style="font-family: 'Exo 2', sans-serif">Record Region</span>
                 </div>
             </header>
             <main class="mdl-layout__content">
-                <!--   Main page content here: -->
+                <!-- Division used to display the map component -->
                 <div id="map"></div>
+                <!-- Add corner button -->
                 <div id="buttonFloat1">
-                    <!-- Colored FAB button with ripple -->
                     <button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored mdl-shadow--16dp" onclick="addCorner()">
                         <i class="material-icons" >add_location</i>
                 </button>
                 </div>
+                <!-- Remove corner button -->
                 <div id="buttonFloat2">
-                    <!-- Colored FAB button with ripple -->
                     <button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored mdl-shadow--16dp" onclick="deleteCorner()">
                         <i class="material-icons">delete_sweep</i>
                 </button>
                 </div>
+                <!-- Clear region button -->
                 <div id="buttonFloat3">
-                    <!-- Colored FAB button with ripple -->
                     <button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored mdl-shadow--16dp" onclick="resetRegion()">
                         <i class="material-icons">delete_forever</i>
                 </button>
             </div>
+                <!-- Save region button -->
                 <div id="buttonFloat4">
-                    <!-- Colored FAB button with ripple -->
                     <button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored mdl-shadow--16dp" onclick="saveRegion()">
                         <i class="material-icons">save</i>
                     </button>
             </div>
+                <!-- Re-center button -->
                 <div id="buttonFloat5">
                     <!-- Mini FAB button -->
                     <button class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-button--colored mdl-shadow--16dp" onclick="recenter()">
@@ -63,7 +65,7 @@
                 <button class="mdl-snackbar__action" type="button"></button>
             </div>
         </div>
-        <!--   JavaScript files:   -->
+        <!-- JavaScript files: -->
         <script defer src="https://code.getmdl.io/1.2.1/material.min.js"></script>
         <script src="js/shared.js"></script>
         <script src="js/recordRegionPage.js"></script>
